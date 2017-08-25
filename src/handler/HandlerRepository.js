@@ -7,7 +7,6 @@ class HandlerRepository {
 
   static resolve( n, c ) {
     const f = HandlerRepository.handlers[n];
-    console.log(n,f);
     if (!f) {
       throw new Error( "Unsupported Handler " + n );
     }

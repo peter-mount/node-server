@@ -10,6 +10,11 @@ class Server {
   * config Path to config json
   */
   constructor( args ) {
+
+    // Parse and show banner
+    const pack = JSON.parse( fs.readFileSync( __dirname + '/package.json', 'utf8' ) )
+    console.log(pack.name,'version',pack.version)
+
     // Parse config
     const config = yaml.safeLoad(
       fs.readFileSync( args.config, 'utf8' ),
@@ -38,7 +43,6 @@ class Server {
     // Now configure each server
     this.servers = Object.keys(config.servers)
       .reduce( (servers,name) => {
-        console.log("Configuring server",name);
         servers[name] = ServerRepository.resolve(name, config.servers[name], config);
         return servers;
       }, {});
