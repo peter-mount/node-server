@@ -19,6 +19,7 @@ class ServerBase {
       this.app.use(logger( name + ' :method :url :status :response-time ms - :res[content-length]'));
     }
 
+
     // Add our handlers
     Object.keys(config.handlers)
       .map( n => config.handlers[n])
@@ -48,6 +49,16 @@ class ServerBase {
           h.pattern.forEach( p => this.app[method]( p, handler ) );
         }
       } );
+
+      // Enable static content
+      if(server.static) {
+        this.app.use( express.static(
+          server.static.startsWith('/')
+          ? server.static
+          : (__dirname + '/' +  server.static)
+        ));
+      }
+
   }
 
   start() {
