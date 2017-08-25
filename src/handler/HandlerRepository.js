@@ -1,4 +1,4 @@
-import StatusHandler from './StatusHandler'
+import StatusHandler from './StatusHandler';
 
 class HandlerRepository {
   static handlers = {
@@ -6,14 +6,12 @@ class HandlerRepository {
   }
 
   static resolve( n, c ) {
-    const f = HandlerRepository.handlers[n]
-    if(!f) {
-      throw new "Unsupported Handler " + n
+    const f = HandlerRepository.handlers[n];
+    if (!f) {
+      throw new Error( "Unsupported Handler "() + n );
     }
-    return f(c).handle
-    //const h = f(c)
-    //return (res, rep, next) => h.handle(res, rep, next)
+    return f(c).handle;
   }
 }
 
-export default HandlerRepository
+export default HandlerRepository;
