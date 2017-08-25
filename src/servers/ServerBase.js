@@ -14,7 +14,8 @@ class ServerBase {
 
     this.app = express();
 
-    this.app.use(logger('dev'));
+    // Same as logger('dev') but prefix with server name
+    this.app.use(logger( name + ' :method :url :status :response-time ms - :res[content-length]'));
 
     // Add our handlers
     Object.keys(config.handlers)
