@@ -1,12 +1,12 @@
 import StatusHandler from './StatusHandler';
 
-class HandlerRepository {
-  static handlers = {
-    status: c => new StatusHandler( c )
-  }
+const handlers = {
+  status: c => new StatusHandler( c )
+};
 
+class HandlerRepository {
   static resolve( n, c ) {
-    const f = HandlerRepository.handlers[n];
+    const f = handlers[n];
     if (!f) {
       throw new Error( "Unsupported Handler " + n );
     }
