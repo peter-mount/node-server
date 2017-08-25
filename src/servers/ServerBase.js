@@ -45,6 +45,17 @@ class ServerBase {
 
   start() {
     console.log( this.name + ': Starting on port',this.server.port);
+
+    this.app.set('port', this.server.port);
+
+    this.srv = this.createServer()
+      .listen(this.server.port)
+      .on('error', e => this.onError(e))
+      .on('listening', () => this.onListening());
+  }
+
+  createServer() {
+    throw new Error("createServer() not implemented");
   }
 
   stop() {

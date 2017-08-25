@@ -12,8 +12,8 @@ class Server {
   constructor( args ) {
 
     // Parse and show banner
-    const pack = JSON.parse( fs.readFileSync( __dirname + '/package.json', 'utf8' ) )
-    console.log(pack.name,'version',pack.version)
+    const pack = JSON.parse( fs.readFileSync( __dirname + '/package.json', 'utf8' ) );
+    console.log(pack.name,'version',pack.version);
 
     // Parse config
     const config = yaml.safeLoad(
