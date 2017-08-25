@@ -1,7 +1,11 @@
 import yaml from 'js-yaml'
 import fs from 'fs'
 
+// The supported server types
 import SpdyServer from './SpdyServer'
+const types = {
+  spdy: b => new SpdyServer( b )
+}
 
 /*
 const express = require('express')
@@ -13,6 +17,7 @@ const spdy = require('spdy')
 */
 
 class Server {
+
   /*
    * config Path to config json
    */
@@ -22,22 +27,16 @@ class Server {
     // Parse config
     const config = yaml.safeLoad( fs.readFileSync( args.config, 'utf8' ) )
 
-    console.log( JSON.stringify( config, undefined, 2 ) );
-
     // Take each server & initialise each one
     this.servers = config.servers.reduce( (a,b) => {
-      var n = b.name ? b.name : (new Date().getTime() + '.' + Math.random() )
-      switch( b.type ) {
-        case 'spdy':
-          a[n] = new SpdyServer( b );
-          break;
-        default:
-          console.error( "Unsupported server type", server.type )
-        break;
+      var f = types[b.type];
+      if (f) {
+        a[ b.name ? b.name : (new Date().getTime() + '.' + Math.random() ) ] = f(b);
+      } else {
+        console.error( "Unsupported server type", server.type )
       }
       return a;
     }, {})
-
 
     console.log( JSON.stringify( this.servers, undefined, 2 ) );
   }

@@ -45,6 +45,8 @@ content: &content
 # The server(s) to serve content on
 servers:
   -
+    # optional name of this server
+    name: test
     # type of server, spdy for http/2
     type: spdy
     # The port to listen on
@@ -70,4 +72,5 @@ servers:
         connection:
           windowSize: 1048576
           autoSpdy31: true
+      # The content
       content: *content
