@@ -1,0 +1,10 @@
+handlers:
+  -
+    # Status handler - custom type
+    type: status
+    # Restrict to a specific server. Absent means on all servers
+    #restrict:
+    #  - h2
+    method: get
+    pattern:
+      - /status

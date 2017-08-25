@@ -17,7 +17,12 @@ ADD . /tmp
 
 COPY server.yaml $SERVER_ETC/server.yaml
 
-RUN mkdir -p $SERVER_ETC $SERVER_DIR $SERVER_WEB &&\
+RUN mkdir -p \
+      $SERVER_ETC \
+      $SERVER_ETC/server \
+      $SERVER_ETC/conf \
+      $SERVER_DIR \
+      $SERVER_WEB &&\
     cd /tmp &&\
     npm install &&\
     node ./node_modules/babel-cli/bin/babel.js \

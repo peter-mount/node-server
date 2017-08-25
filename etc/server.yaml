@@ -1,0 +1,4 @@
+# Root config for the server
+# The server(s) to serve content on
+servers: !!inc/dir [ 'server' ]
+handlers: !!inc/dir [ 'handlers' ]
