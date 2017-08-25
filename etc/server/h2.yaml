@@ -1,0 +1,29 @@
+# type of server, spdy for http/2
+type: h2
+# The port to listen on
+port: 3000
+# server options
+options:
+  # TLS private key
+  key: ../etc/certs/privkey.pem
+  # TLS cert
+  cert: ../etc/certs/fullchain.pem
+  # spdy config
+  spdy:
+    protocols:
+      - h2
+      - spdy/4
+      - spdy/3.1
+      - spdy/3
+      - spdy/2
+      - http/1.1
+      - http/1.0
+    plain: false
+    x-forwared-for: false
+    connection:
+      windowSize: 1048576
+      autoSpdy31: true
+# Log requests
+logging: true
+# Enable debugging of the server
+#debug: true

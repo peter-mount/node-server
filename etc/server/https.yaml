@@ -1,0 +1,14 @@
+# type of server, spdy for http/2
+type: https
+# The port to listen on
+port: 3002
+# server options
+options:
+  # TLS private key
+  key: ../etc/certs/privkey.pem
+  # TLS cert
+  cert: ../etc/certs/fullchain.pem
+# Log requests
+logging: true
+# Enable debugging of the server
+#debug: true
