@@ -6,15 +6,16 @@
     "registry": "https://nexus.area51.onl/repository/npm-private/"
   },
   "scripts": {
-    "prepublish": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
+    "build": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
     "lint:watch": "esw -w src/**",
-    "start": "npm run prepublish && node index.js"
+    "start": "npm run build && node index.js"
   },
   "dependencies": {
     "babel-runtime": "^6.6.1",
     "express": "^4.15.4",
+    "js-yaml": "^3.9.1",
     "morgan": "^1.8.2",
     "path": "^0.12.7",
     "spdy": "^3.4.7",
