@@ -5,9 +5,9 @@ port: 3002
 # server options
 options:
   # TLS private key
-  key: ../etc/certs/privkey.pem
+  key: certs/privkey.pem
   # TLS cert
-  cert: ../etc/certs/fullchain.pem
+  cert: certs/fullchain.pem
 # Log requests
 logging: true
 # Enable debugging of the server
