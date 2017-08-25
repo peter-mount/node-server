@@ -2,27 +2,7 @@ import yaml from 'js-yaml';
 import yamlinc from 'yaml-include';
 import fs from 'fs';
 
-// The supported server types
-import H2Server from './H2Server';
-const types = {
-  h2: (a, b, c) => new H2Server(a, b, c)
-};
-
-/*
-const express = require('express')
-const path = require('path')
-const app = express()
-const logger = require('morgan')
-const fs = require('fs')
-const spdy = require('spdy')
-*/
-class UnsupportedServerType extends Error {
-  constructor(message) {
-    super(message);
-    this.message = message;
-    this.name = 'UnsupportedServerType';
-  }
-}
+import ServerRepository from './servers/ServerRepository';
 
 class Server {
 
@@ -55,23 +35,11 @@ class Server {
       // Reduce into a single array
       .reduce( (a,b) => a.concat(b), [] );
 
-    //console.log( JSON.stringify( config.handlers, undefined, 2 ) );
-
     // Now configure each server
     this.servers = Object.keys(config.servers)
       .reduce( (servers,name) => {
         console.log("Configuring server",name);
-        const server = config.servers[name];
-
-        console.log( JSON.stringify( server, undefined, 2 ) );
-
-        // Get an instance
-        const f = types[server.type];
-        if (!f) {
-          throw new UnsupportedServerType( server.type );
-        }
-        servers[name] = f(name,server,config);
-
+        servers[name] = ServerRepository.resolve(name, config.servers[name], config);
         return servers;
       }, {});
   }

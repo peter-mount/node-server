@@ -1,7 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 
-import HandlerRepository from './handler/HandlerRepository';
+import HandlerRepository from '../handler/HandlerRepository';
 
 class ServerBase {
   constructor( name, server, config ) {
