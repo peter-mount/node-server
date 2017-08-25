@@ -1,4 +1,0 @@
-# type of server, spdy for http/2
-type: http
-# The port to listen on
-port: 3003

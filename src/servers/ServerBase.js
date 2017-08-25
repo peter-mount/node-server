@@ -15,7 +15,9 @@ class ServerBase {
     this.app = express();
 
     // Same as logger('dev') but prefix with server name
-    this.app.use(logger( name + ' :method :url :status :response-time ms - :res[content-length]'));
+    if(server.logging) {
+      this.app.use(logger( name + ' :method :url :status :response-time ms - :res[content-length]'));
+    }
 
     // Add our handlers
     Object.keys(config.handlers)
@@ -37,10 +39,14 @@ class ServerBase {
           h.pattern = [h.pattern];
         }
 
-        h.pattern.forEach( p => {
-          console.log(this.name + ': adding', method, p);
-          this.app[method]( p, handler );
-        });
+        if(server.debug) {
+          h.pattern.forEach( p => {
+            console.log(this.name + ': adding', method, p);
+            this.app[method]( p, handler );
+          });
+        }else{
+          h.pattern.forEach( p => this.app[method]( p, handler ) );
+        }
       } );
   }
 

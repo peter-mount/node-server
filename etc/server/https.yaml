@@ -8,3 +8,7 @@ options:
   key: ../etc/certs/privkey.pem
   # TLS cert
   cert: ../etc/certs/fullchain.pem
+# Log requests
+logging: true
+# Enable debugging of the server
+#debug: true

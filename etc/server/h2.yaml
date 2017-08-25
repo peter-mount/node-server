@@ -23,3 +23,7 @@ options:
     connection:
       windowSize: 1048576
       autoSpdy31: true
+# Log requests
+logging: true
+# Enable debugging of the server
+#debug: true
