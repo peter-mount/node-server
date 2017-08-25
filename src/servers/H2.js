@@ -1,8 +1,8 @@
 import ServerBase from './ServerBase';
 import fs from 'fs';
-import https from 'https';
+import spdy from 'spdy';
 
-class HTTPSServer extends ServerBase {
+class H2 extends ServerBase {
 
   start() {
     super.start();
@@ -12,13 +12,11 @@ class HTTPSServer extends ServerBase {
     opts.key = fs.readFileSync( opts.key );
     opts.cert = fs.readFileSync( opts.cert );
 
-    this.app.set('port', this.server.port);
-
-    this.srv = https.createServer(opts,this.app)
+    this.srv = spdy.createServer(opts, this.app)
       .listen(this.server.port)
       .on('error', e => this.onError(e))
       .on('listening', () => this.onListening());
   }
 }
 
-export default HTTPSServer;
+export default H2;

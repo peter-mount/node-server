@@ -1,7 +1,7 @@
 import ServerBase from './ServerBase';
 import http from 'http';
 
-class HTTPSServer extends ServerBase {
+class HTTPS extends ServerBase {
 
   start() {
     super.start();
@@ -15,4 +15,4 @@ class HTTPSServer extends ServerBase {
   }
 }
 
-export default HTTPSServer;
+export default HTTPS;
