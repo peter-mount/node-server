@@ -1,9 +1,11 @@
 import RejectHandler from './RejectHandler';
-import StatusHandler from './StatusHandler';
+import Status from 'area51-status';
+
+//import StatusHandler from './StatusHandler';
 
 const handlers = {
   reject: c => new RejectHandler( c ),
-  status: c => new StatusHandler( c )
+  status: c => new Status()
 };
 
 class HandlerRepository {
@@ -12,7 +14,7 @@ class HandlerRepository {
     if (!f) {
       throw new Error( "Unsupported Handler " + n );
     }
-    return f(c).handle;
+    return (a,b,c) => f(c).handle(a,b,c);
   }
 }
 
