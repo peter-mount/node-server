@@ -1,0 +1,73 @@
+# Example server configuration
+
+# static resources to push for all handlers that need them
+pushAll: &commonPush
+  - /js/jquery-3.1.1.min.js,
+  - /js/dropdown.min.js,
+  - /css/uktrain.min.css,
+  - /css/font-awesome.min.css,
+  - /fonts/fontawesome-webfont.woff2?v=4.6.3,
+  - /css/bootstrap.min.css
+
+# Content for our handlers
+content: &content
+  # If present directory to serve static content from
+  static: public
+
+  # handlers
+  handlers:
+    # Station index app
+    -
+      # Patterns to match
+      pattern:
+          - /station/
+          - "/station/*"
+      # File to serve
+      file: station/index.html,
+      # Files to push if spdy is enabled
+      push:
+        - /js/station/main.e4d807e9.js
+        - /js/station/main.a4a4369f.css
+        - *commonPush
+    # Timetable app
+    -
+      # Patterns to match
+      pattern:
+        - /timetable/
+        - /timetable/*
+        - *commonPush
+      # File to serve
+      file: timetable/index.html
+      # Files to push if spdy is enabled
+      push:
+        - /timetable/main.004bea6b.js
+
+# The server(s) to serve content on
+servers:
+  -
+    # type of server, spdy for http/2
+    type: spdy
+    # The port to listen on
+    port: 3000
+    # server options
+    options:
+      # TLS private key
+      key: provkey.pem
+      # TLS cert
+      cert: fullchain.pem
+      # spdy config
+      spdy:
+        protocols:
+          - h2
+          - spdy/4
+          - spdy/3.1
+          - spdy/3
+          - spdy/2
+          - http/1.1
+          - http/1.0
+        plain: false
+        x-forwared-for: false
+        connection:
+          windowSize: 1048576
+          autoSpdy31: true
+      content: *content
