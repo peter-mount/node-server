@@ -8,3 +8,18 @@ handlers:
     method: get
     pattern:
       - /status
+  -
+    type: reject
+    method: get
+    pattern:
+      - /test
+  
+
+databases:
+  test:
+    host: 172.17.0.2
+    port: 5432
+    database: postgres
+    user: postgres
+    password: password
+    ssl: false

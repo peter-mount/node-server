@@ -3,6 +3,7 @@ import yamlinc from 'yaml-include';
 import fs from 'fs';
 
 import ServerRepository from './servers/ServerRepository';
+import Database from './database/Database';
 
 class Server {
 
@@ -26,6 +27,14 @@ class Server {
     Object.keys(config)
       .filter( k => config[k]['/'] )
       .forEach( k => config[k]=config[k]['/'] );
+
+    // Look for any database entries within handlers
+    Database.register( Object.keys(config.handlers)
+      .map( n => config.handlers[n] )
+      .map( h => h.databases )
+      .filter( n => n )
+      .reduce( (a,b) => Object.assign( a, b ), {} )
+    );
 
     // Also flatten the handlers into a single array
     config.handlers = Object.keys(config.handlers)

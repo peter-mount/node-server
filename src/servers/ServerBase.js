@@ -27,7 +27,7 @@ class ServerBase {
       .filter( h => !h.restrict || h.restrict.indexOf(this.name))
       .forEach( h => {
       // Resolve the handler
-        const handler = HandlerRepository.resolve( h.type, h );
+        const handler = HandlerRepository.resolve( h.type, h, config );
 
         // Resolve the method
         const method = h.method ? h.method : 'get';

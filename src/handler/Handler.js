@@ -1,6 +1,6 @@
 
 class Handler {
-  constructor( props ) {
+  constructor( props, config ) {
     this.props=props;
   }
 

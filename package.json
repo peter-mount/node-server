@@ -17,7 +17,9 @@
     "express": "^4.15.4",
     "js-yaml": "^3.9.1",
     "morgan": "^1.8.2",
+    "native-promise": "^1.0.1",
     "path": "^0.12.7",
+    "pg-promise": "^6.5.1",
     "spdy": "^3.4.7",
     "spdy-push": "^1.0.2",
     "yaml-include": "^1.2.0"
