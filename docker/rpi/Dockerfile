@@ -18,7 +18,7 @@ ADD etc $SERVER_ETC
 RUN echo "registry=https://npm.area51.onl/" > ~/.npmrc &&\
     apk --update add \
       jq &&\
-    rm -rf /var/cache/apk/* &&/
+    rm -rf /var/cache/apk/* &&\
     mkdir -p \
       $SERVER_ETC \
       $SERVER_ETC/server \
