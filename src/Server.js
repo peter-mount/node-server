@@ -72,11 +72,9 @@ class Server {
   }
 
   stop() {
-    setTimeout( () => {
-      Object.keys(this.servers)
-        .map( n => this.servers[n] )
-        .forEach( s => s.stop() );
-    },500);
+    Object.keys(this.servers)
+      .map( n => this.servers[n] )
+      .forEach( s => s.stop() );
   }
 }
 
