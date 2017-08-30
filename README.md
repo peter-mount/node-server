@@ -1,7 +1,7 @@
 # node-server
 NodeJS webserver supporting http, https &amp; h2 connections
 
-The full documentation is in the [[Wiki|https://github.com/peter-mount/node-server/wiki]]
+The full documentation is in the Wiki https://github.com/peter-mount/node-server/wiki
 
 ## Build status
 
