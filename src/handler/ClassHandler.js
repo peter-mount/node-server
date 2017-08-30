@@ -18,6 +18,9 @@ class ClassHandler extends Handler {
     this.delegate = null;
 
     this.lock = new ApiLock();
+
+    // Preload
+    this.init( null, null, null );
   }
 
   init( req, resp, next ) {
@@ -51,6 +54,7 @@ class ClassHandler extends Handler {
         .then( () => {
           this.lock
             .unlock('x')
+            .filter( d => d && d.req )
             .forEach( d => t.delegate( d.req, d.resp, d.next ) );
           delete this.lock;
         });
