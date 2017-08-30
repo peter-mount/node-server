@@ -5,12 +5,9 @@ import HandlerRepository from '../handler/HandlerRepository';
 
 class ServerBase {
   constructor( name, server, config ) {
-    console.log(name+": configuring server");
-
-    //console.log( JSON.stringify( config.handlers, undefined, 2 ) );
-
     this.name = name;
     this.server = server;
+    this.config = config;
 
     this.app = express();
 
@@ -19,57 +16,71 @@ class ServerBase {
       this.app.use(logger( name + ' :method :url :status :response-time ms - :res[content-length]'));
     }
 
+  }
+
+  start(p) {
+    const t = this;
+
+    p.then( () => console.log( t.name + ': Configuring' ) );
+
+    //console.log( JSON.stringify( config.handlers, undefined, 2 ) );
 
     // Add our handlers
-    Object.keys(config.handlers)
-      .map( n => config.handlers[n])
-    // Restricted to handler
-      .filter( h => !h.restrict || h.restrict.indexOf(this.name))
+    Object.keys(t.config.handlers)
+      .map( n => t.config.handlers[n])
+      // Restricted to handler
+      .filter( h => !h.restrict || h.restrict.indexOf(t.name))
       .forEach( h => {
-      // Resolve the handler
-        const handler = HandlerRepository.resolve( h.type, h, config );
+        p.then( () => HandlerRepository.resolve( h, t.config ) )
+        .then( h => (a,b,c) => h.handle(a,b,c) )
+        .then( handler => {
+          console.log('handler', handler );
 
-        // Resolve the method
-        const method = h.method ? h.method : 'get';
-        if (!method || !this.app[method]) {
-          throw new Error( 'Unsupported method ' + h.method );
-        }
+          // Resolve the method
+          const method = h.method ? h.method : 'get';
+          if (!method || !t.app[method]) {
+            throw new Error( 'Unsupported method ' + h.method );
+          }
 
-        // Allow string as a single pattern
-        if ( typeof h.pattern === 'string' ) {
-          h.pattern = [h.pattern];
-        }
+          // Allow string as a single pattern
+          if ( typeof h.pattern === 'string' ) {
+            h.pattern = [h.pattern];
+          }
 
-        if (server.debug) {
-          h.pattern.forEach( p => {
-            console.log(this.name + ': adding', method, p);
-            this.app[method]( p, handler );
-          });
-        } else {
-          h.pattern.forEach( p => this.app[method]( p, handler ) );
-        }
+          if (true || server.debug) {
+            h.pattern.forEach( pat => {
+              console.log(t.name + ': adding', method, pat);
+              t.app[method]( pat, handler );
+            });
+          } else {
+            h.pattern.forEach( p => t.app[method]( p, handler ) );
+          }
+        });
       } );
 
     // Enable static content
-    if (server.static) {
-      this.app.use( express.static(
-        server.static.startsWith('/')
-          ? server.static
-          : (__dirname + '/' +  server.static)
-      ));
+    if (t.server.static) {
+      p = p.then( () => {
+        t.app.use( express.static(
+          t.server.static.startsWith('/')
+          ? t.server.static
+          : (__dirname + '/' + t.server.static)
+        ));
+      });
     }
 
-  }
+    p.then( () => {
+      console.log( t.name + ': Starting on port',t.server.port);
 
-  start() {
-    console.log( this.name + ': Starting on port',this.server.port);
+      t.app.set('port', t.server.port);
 
-    this.app.set('port', this.server.port);
+      t.srv = t.createServer()
+      .listen(t.server.port)
+      .on('error', e => t.onError(e))
+      .on('listening', () => t.onListening());
+    });
 
-    this.srv = this.createServer()
-      .listen(this.server.port)
-      .on('error', e => this.onError(e))
-      .on('listening', () => this.onListening());
+    return p;
   }
 
   createServer() {

@@ -12,8 +12,13 @@ handlers:
     type: reject
     method: get
     pattern:
+      - /reject
+  -
+    type: class
+    require: area51-status
+    method: get
+    pattern:
       - /test
-  
 
 databases:
   test:

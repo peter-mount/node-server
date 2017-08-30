@@ -7,11 +7,3 @@ process.chdir( cd );
 const server = new Server( {
   config: 'server.yaml'
 } );
-
-try {
-  server.start();
-} catch (e) {
-  console.error(e);
-  server.stop();
-  throw e;
-}

@@ -1,22 +1,23 @@
+import ClassHandler from './ClassHandler';
 import RejectHandler from './RejectHandler';
 import Status from 'area51-status';
 
-//import StatusHandler from './StatusHandler';
-
 const handlers = {
-  reject: (h, c) => new RejectHandler( h, c ),
+  class: (h, c) => new ClassHandler(h, c),
+  reject: (h, c) => new RejectHandler(h, c),
   status: (h, c) => new Status()
 };
 
 class HandlerRepository {
-  static resolve( n, c, config ) {
-    const f = handlers[n];
-    if (!f) {
-      throw new Error( "Unsupported Handler " + n );
+
+  static resolve( h, c ) {
+    const f = handlers[h.type];
+
+    if (f) {
+      return f(h, c);
     }
-    
-    const h = f(c, config);
-    return (a,b,c) => h.handle(a,b,c);
+
+    throw new Error("Unsupported Handler " + h.type );
   }
 }
 
