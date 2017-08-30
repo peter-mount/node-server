@@ -15,7 +15,7 @@ class ServerBase {
     this.app = express();
 
     // Same as logger('dev') but prefix with server name
-    if(server.logging) {
+    if (server.logging) {
       this.app.use(logger( name + ' :method :url :status :response-time ms - :res[content-length]'));
     }
 
@@ -40,24 +40,24 @@ class ServerBase {
           h.pattern = [h.pattern];
         }
 
-        if(server.debug) {
+        if (server.debug) {
           h.pattern.forEach( p => {
             console.log(this.name + ': adding', method, p);
             this.app[method]( p, handler );
           });
-        }else{
+        } else {
           h.pattern.forEach( p => this.app[method]( p, handler ) );
         }
       } );
 
-      // Enable static content
-      if(server.static) {
-        this.app.use( express.static(
-          server.static.startsWith('/')
+    // Enable static content
+    if (server.static) {
+      this.app.use( express.static(
+        server.static.startsWith('/')
           ? server.static
           : (__dirname + '/' +  server.static)
-        ));
-      }
+      ));
+    }
 
   }
 
