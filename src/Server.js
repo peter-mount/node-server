@@ -62,6 +62,10 @@ class Server {
       .reduce(
         (p,s) => s.start( p ),
         new Promise( (res,rej) => res() )
+          .catch(e => {
+            console.error('Promise failure', e);
+            process.exit(1);
+          })
       );
 
     // Last thing, log an error if the promise is rejected
