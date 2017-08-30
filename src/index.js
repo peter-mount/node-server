@@ -4,6 +4,6 @@ import Server from './Server';
 const cd = process.env.SERVER_ETC ? process.env.SERVER_ETC : 'etc';
 process.chdir( cd );
 
-const server = new Server( {
+new Server( {
   config: 'server.yaml'
 } );

@@ -32,30 +32,28 @@ class ServerBase {
       .filter( h => !h.restrict || h.restrict.indexOf(t.name))
       .forEach( h => {
         p.then( () => HandlerRepository.resolve( h, t.config ) )
-        .then( h => (a,b,c) => h.handle(a,b,c) )
-        .then( handler => {
-          console.log('handler', handler );
-
+          .then( h => (a,b,c) => h.handle(a,b,c) )
+          .then( handler => {
           // Resolve the method
-          const method = h.method ? h.method : 'get';
-          if (!method || !t.app[method]) {
-            throw new Error( 'Unsupported method ' + h.method );
-          }
+            const method = h.method ? h.method : 'get';
+            if (!method || !t.app[method]) {
+              throw new Error( 'Unsupported method ' + h.method );
+            }
 
-          // Allow string as a single pattern
-          if ( typeof h.pattern === 'string' ) {
-            h.pattern = [h.pattern];
-          }
+            // Allow string as a single pattern
+            if ( typeof h.pattern === 'string' ) {
+              h.pattern = [h.pattern];
+            }
 
-          if (true || server.debug) {
-            h.pattern.forEach( pat => {
-              console.log(t.name + ': adding', method, pat);
-              t.app[method]( pat, handler );
-            });
-          } else {
-            h.pattern.forEach( p => t.app[method]( p, handler ) );
-          }
-        });
+            if (t.server.debug) {
+              h.pattern.forEach( pat => {
+                console.log(t.name + ': adding', method, pat);
+                t.app[method]( pat, handler );
+              });
+            } else {
+              h.pattern.forEach( p => t.app[method]( p, handler ) );
+            }
+          });
       } );
 
     // Enable static content
@@ -63,8 +61,8 @@ class ServerBase {
       p = p.then( () => {
         t.app.use( express.static(
           t.server.static.startsWith('/')
-          ? t.server.static
-          : (__dirname + '/' + t.server.static)
+            ? t.server.static
+            : (__dirname + '/' + t.server.static)
         ));
       });
     }
@@ -75,9 +73,9 @@ class ServerBase {
       t.app.set('port', t.server.port);
 
       t.srv = t.createServer()
-      .listen(t.server.port)
-      .on('error', e => t.onError(e))
-      .on('listening', () => t.onListening());
+        .listen(t.server.port)
+        .on('error', e => t.onError(e))
+        .on('listening', () => t.onListening());
     });
 
     return p;
