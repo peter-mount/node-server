@@ -9,7 +9,9 @@ const server = new Server( {
 } );
 
 // On container shutdown exit quickly
-process.on('SIGTERM', () => {
+const stop = () => {
   server.stop();
   process.exit(0);
-});
+};
+process.on('SIGTERM', stop);
+process.on('SIGINT', stop);
