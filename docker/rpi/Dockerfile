@@ -8,19 +8,18 @@ ENV SERVER_WEB /opt/www
 VOLUME $SERVER_ETC
 VOLUME $SERVER_WEB
 
-# We need jq, may as well leave in the image
-# Also configure npm to use our repository
-RUN echo "registry=https://npm.area51.onl/" > ~/.npmrc &&\
-    apk --update add \
-      jq &&\
-    rm -rf /var/cache/apk/*
-
 ADD . /tmp
 
 # Copy config to final location
 ADD etc $SERVER_ETC
 
-RUN mkdir -p \
+# We need jq, may as well leave in the image
+# Also configure npm to use our repository
+RUN echo "registry=https://npm.area51.onl/" > ~/.npmrc &&\
+    apk --update add \
+      jq &&\
+    rm -rf /var/cache/apk/* &&/
+    mkdir -p \
       $SERVER_ETC \
       $SERVER_ETC/server \
       $SERVER_ETC/conf \

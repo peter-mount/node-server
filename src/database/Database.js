@@ -1,4 +1,4 @@
-import promise from 'native-promise';
+import promise from 'any-promise';
 import pgPromise from 'pg-promise';
 
 const options = {
