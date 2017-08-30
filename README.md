@@ -5,7 +5,8 @@ The full documentation is in the [[Wiki|https://github.com/peter-mount/node-serv
 
 ## Build status
 
-| Build | Tag | Status | Description
+| Build | Tag | Status | Description |
+| ----- | :-: | ------ | ----------- |
 | lint | | [![Build Status](http://jenkins.area51.onl/buildStatus/icon?job=Public/node-server)](http://jenkins.area51.onl/job/Public/job/node-server/) | Checks the build has no errors & buildStatus
 | amd64 | latest | [![Build Status](http://jenkins.area51.onl/buildStatus/icon?job=Public/node-server-amd64)](http://jenkins.area51.onl/job/Public/job/node-server-amd64/) | Docker image for amd64 / intel
 | arm64v8 | latest | [![Build Status](http://jenkins.area51.onl/buildStatus/icon?job=Public/node-server-arm64v8)](http://jenkins.area51.onl/job/Public/job/node-server-arm64v8/) | Docker image for arm64v8
