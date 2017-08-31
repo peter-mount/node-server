@@ -29,12 +29,14 @@ class Server {
       .forEach( k => config[k]=config[k]['/'] );
 
     // Look for any database entries within handlers
+    /*
     Database.register( Object.keys(config.handlers)
       .map( n => config.handlers[n] )
       .map( h => h.databases )
       .filter( n => n )
       .reduce( (a,b) => Object.assign( a, b ), {} )
     );
+    */
 
     // Also flatten the handlers into a single array
     config.handlers = Object.keys(config.handlers)
@@ -67,9 +69,6 @@ class Server {
             process.exit(1);
           })
       );
-
-    // Last thing, log an error if the promise is rejected
-    p.then( () => {}, e => console.error("Rejected",e) );
 
     // Stops the process from exiting whilst promises are resolved
     setTimeout( () => {}, 1000);

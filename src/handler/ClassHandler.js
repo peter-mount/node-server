@@ -32,18 +32,24 @@ class ClassHandler extends Handler {
       next: next
     })) {
       import( t.h.require )
+        .catch( e => {
+          console.error('Failed to import', t.h.require);
+          process.exit(1);
+        })
         .then( m => {
         // Allow us to use a method other than handle(a,b,c)
           const meth = t.h.handle ? t.h.handle : 'handle';
 
           const i = new m.default(t.h,t.c);
           if (!i) {
-            throw new Error(t.h.require + ' not instantiated');
+            console.error(t.h.require + ' not instantiated');
+            process.exit(1);
           }
 
           const hd = m.default.prototype[meth];
           if ( !hd) {
-            throw new Error(t.h.require+' ' + meth + ' not found');
+            console.error(t.h.require+' ' + meth + ' not found');
+            process.exit(1);
           }
 
           t.delegate = (a,b,c) => hd(a,b,c);
