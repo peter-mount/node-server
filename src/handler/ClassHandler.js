@@ -19,7 +19,8 @@ class ClassHandler extends Handler {
 
     this.lock = new ApiLock();
 
-    // Preload
+    // Preload in the background. This should hold any requests that make it
+    // until we have initialised
     this.init( null, null, null );
   }
 
@@ -37,31 +38,41 @@ class ClassHandler extends Handler {
           process.exit(1);
         })
         .then( m => {
-        // Allow us to use a method other than handle(a,b,c)
+          // Allow us to use a method other than handle(a,b,c)
           const meth = t.h.handle ? t.h.handle : 'handle';
 
-          const i = new m.default(t.h,t.c);
+          // Name allows us to select the exported handler, defaults to 'default'
+          const name = t.h.name ? t.h.name : 'default';
+
+          // Create a new instance
+          const i = new m[name](t.h,t.c);
           if (!i) {
             console.error(t.h.require + ' not instantiated');
             process.exit(1);
           }
 
-          const hd = m.default.prototype[meth];
+          // Get the handle method
+          const hd = m[name].prototype[meth];
           if ( !hd) {
             console.error(t.h.require+' ' + meth + ' not found');
             process.exit(1);
           }
 
-          t.delegate = (a,b,c) => hd(a,b,c);
+          // Create the delegate to call the handler
+          t.delegate = (a,b,c) => hd.call(i,a,b,c);
 
+          // Remove the now unwanted config
           delete t.h;
           delete t.c;
         })
         .then( () => {
+          // Now unlock, invoke any requests that made it before we initialised
           this.lock
             .unlock('x')
             .filter( d => d && d.req )
             .forEach( d => t.delegate( d.req, d.resp, d.next ) );
+
+          // Remove the lock as now unwanted
           delete this.lock;
         });
     }
