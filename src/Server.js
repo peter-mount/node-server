@@ -29,14 +29,12 @@ class Server {
       .forEach( k => config[k]=config[k]['/'] );
 
     // Look for any database entries within handlers
-    /*
     Database.register( Object.keys(config.handlers)
       .map( n => config.handlers[n] )
       .map( h => h.databases )
       .filter( n => n )
       .reduce( (a,b) => Object.assign( a, b ), {} )
     );
-    */
 
     // Also flatten the handlers into a single array
     config.handlers = Object.keys(config.handlers)
@@ -59,7 +57,7 @@ class Server {
       }, {});
 
     // Now start the servers
-    var p = Object.keys(this.servers)
+    Object.keys(this.servers)
       .map( n => this.servers[n] )
       .reduce(
         (p,s) => s.start( p ),
