@@ -34,7 +34,7 @@ class ClassHandler extends Handler {
     })) {
       import( t.h.require )
         .catch( e => {
-          console.error('Failed to import', t.h.require);
+          console.error('Failed to import', t.h.require, e);
           process.exit(1);
         })
         .then( m => {
