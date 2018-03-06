@@ -80,7 +80,7 @@ def buildNode = {
 
 // Generate the multi-arch image
 def buildMultiArch = {
-  () -> node( "AMD64" ) {
+  ar -> node( "AMD64" ) {
     stage( 'MultiArch' ) {
       // The manifest to publish
       multiImage = dockerImage( '' )
@@ -115,4 +115,4 @@ stage( 'build' ) {
   )
 }
 
-buildMultiArch()
+buildMultiArch( '' )
