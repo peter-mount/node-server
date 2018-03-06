@@ -30,7 +30,7 @@ def slaveId = {
 def dockerImage = {
   architecture -> repository + imagePrefix + ':' +
     ( architecture=='' ? '' : ( architecture + '-' ) ) +
-    version=='
+    version
 }
 
 // The go arch
