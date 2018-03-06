@@ -67,10 +67,9 @@ def buildNode = {
     }
 
     stage( 'Build ' + architecture ) {
-        sh 'docker build' +
-            ' -t ' + dockerImage( architecture ) +
-            ' .'
-      }
+      sh 'docker build' +
+         ' -t ' + dockerImage( architecture ) +
+         ' .'
     }
 
     stage( 'Publish ' + architecture ) {
