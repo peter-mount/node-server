@@ -54,7 +54,7 @@ properties( [
   disableResume(),
   pipelineTriggers([
     cron('H H * * *'),
-    upstream('/Public/Node/master'),
+    upstream('/peter-mount/node/master'),
   ])
 ])
 
