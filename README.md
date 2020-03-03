@@ -1,3 +1,5 @@
+This project is now deprecated
+
 # node-server
 NodeJS webserver supporting http, https &amp; h2 connections
 
